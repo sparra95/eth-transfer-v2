@@ -120,17 +120,20 @@ export const TransactionProvider = ({ children }) => {
             })
 
             //  Add to blockchain, get hash
-            const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword)
+            const transactionReceipt = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword)
 
-            // Wait, update loading
-            setIsLoading(true) // console.log(`Loading - ${transactionHash.hash}`)
-            await transactionHash.wait()
-            setIsLoading(false) // console.log(`Success - ${transactionHash.hash}`)
+            // Wait for transaction to be confirmed
+            setIsLoading(true) // console.log(`Loading - ${transactionReceipt.hash}`)
+            await transactionReceipt.wait()
+            setIsLoading(false) // console.log(`Success - ${transactionReceipt.hash}`)
 
             // Update count
             const transactionCount = await transactionContract.getTransactionCount()
             setTransactionCount(transactionCount.toNumber())
-            window.reload()
+
+            // Clear form and refresh transaction history
+            getAllTransactions()
+            document.getElementById("transaction-form").reset()
 
         } catch (error) {
             console.log(error)
@@ -143,6 +146,11 @@ export const TransactionProvider = ({ children }) => {
         checkIfWalletIsConnected()
         checkIfTransactionsExist()
     }, [])
+
+    // Get all transactions after connecting account
+    useEffect(() => {
+        if (currentAccount) getAllTransactions()
+    }, [currentAccount])
 
     return (
         <TransactionContext.Provider value={{ currentAccount, connectWallet, formData, sendTransaction, handleChange, transactions, isLoading }}>

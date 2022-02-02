@@ -4,13 +4,13 @@ import { BiSearchAlt } from 'react-icons/bi'
 import { RiHeart2Fill } from 'react-icons/ri'
 
 const ServiceCard = ({ color, title, icon, subtitle }) => (
-	<div className="flex flex-row justify-start items-center white-glassmorphism p-3 m-2 cursor-pointer hover:shadow-xl">
+	<div className="flex w-11/12 xl:w-9/12 flex-row justify-start items-center white-glassmorphism p-3 m-2 cursor-pointer hover:shadow-xl">
 		<div className={`w-10 h-10 rounded-full flex justify-center items-center ${color}`}>
 			{icon}
 		</div>
 		<div className="ml-5 flex flex-col flex-1">
 			<h3 className="mt-2 text-white text-lg">{title}</h3>
-			<p className="mt-3 text-white text-sm md:w-9/12">{subtitle}</p>
+			<p className="mt-3 text-white text-sm md:w-9/12 lg:w-11/12">{subtitle}</p>
 		</div>
 	</div>
 )
@@ -36,13 +36,13 @@ const Services = () => {
 					color="bg-[#8945f8]" 
 					title="Best Exchange Rates" 
 					icon={<BiSearchAlt fontSize={21} className="text-white" />}
-					subtitle="Security is guaranteed. We always maintain privacy and the quality of products" 
+					subtitle="We find the best rates amonngst exchagnes to and pass the savings onto you" 
 				 />
 				 <ServiceCard 
 					color="bg-[#f84550]" 
 					title="Fastest Transactions" 
 					icon={<RiHeart2Fill fontSize={21} className="text-white" />}
-					subtitle="Security is guaranteed. We always maintain privacy and the quality of products" 
+					subtitle="We ensure the fastest transaction times over our competitors" 
 				 />
 			</div>
 		</div>

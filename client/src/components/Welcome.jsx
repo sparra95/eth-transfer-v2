@@ -43,7 +43,7 @@ const Welcome = () => {
 						Send Crypto <br /> across the world
 					</h1>
 					<p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
-						Explore the crypto world. Buy and sell cryptocurrencies easily with Krypto
+						Explore the crypto world. Buy and sell cryptocurrencies easily with KRYPT, our Ethereum Transfer App
 					</p>
 					{!currentAccount && 
 						(<button type="button" onClick={connectWallet} className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-dull pursor-pointer hover:bg-[#2546bd]">
@@ -84,7 +84,7 @@ const Welcome = () => {
 					</div>
 
 					{/** Transaction Form */}
-					<div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
+					<form id="transaction-form" className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
 						<Input placeholder="Address To" name="addressTo" type="text" handleChange={handleChange} />
 						<Input placeholder="Amount (ETH)" name="amount" type="number" handleChange={handleChange} />
 						<Input placeholder="Keyword (Gif)" name="keyword" type="text" handleChange={handleChange} />
@@ -100,7 +100,7 @@ const Welcome = () => {
 								</button>
 							)
 						}
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
