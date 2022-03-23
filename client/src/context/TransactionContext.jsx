@@ -1,11 +1,13 @@
 import React, { useEffect, useState, createContext } from 'react'
 import { ethers } from 'ethers'
-
 import { contractABI, contractAddress } from '../utils/constants'
+import { database } from "../Firebase/firebase.js"
 
 export const TransactionContext = createContext()
 
 const { ethereum } = window
+const { getDatabase, set, push, ref, onValue } = database
+
 
 const getEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum)
@@ -19,8 +21,14 @@ export const TransactionProvider = ({ children }) => {
     const [currentAccount, setCurrentAccount] = useState('')
     const [formData, setFormData] = useState({addressTo: '', amount: '', keyword: '', message: ''})
     const [isLoading, setIsLoading] = useState(false)
-    const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'))
     const [transactions, setTransactions] = useState([])
+
+    // Check wallet and transactions on load
+    useEffect(() => {
+        checkIfWalletIsConnected()
+        getAllTransactionFromDatabase()
+        
+    }, [])
 
     const handleChange = (e, name) => {
         setFormData((prevState) => ({ ...prevState, [name]: e.target.value }))
@@ -43,13 +51,30 @@ export const TransactionProvider = ({ children }) => {
                 keyword: transaction.keyword,
                 amount: parseInt(transaction.amount._hex) / (10 ** 18)
             }))
-
-            // Update state
-            setTransactions(structuredTransactions)
+            
+            // Update database
+            pushNewTransactionToDataBase( structuredTransactions.pop() )
 
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const pushNewTransactionToDataBase = (transaction) => {
+        const db = database.getDatabase()
+        const dbTransactionsRef = ref(db, 'transactions')
+        const dbNewTransactionRef = push(dbTransactionsRef)
+        set(dbNewTransactionRef, transaction)
+    }
+
+    const getAllTransactionFromDatabase = () => {
+        const db = database.getDatabase()
+        const dbTransactionsRef = ref(db, 'transactions')
+        onValue(dbTransactionsRef, (snapshot) => {
+            const data = snapshot.val()
+            setTransactions( Object.values(data) )
+        })
+
     }
 
     const checkIfWalletIsConnected = async () => {
@@ -62,25 +87,9 @@ export const TransactionProvider = ({ children }) => {
             
             // Update state
             setCurrentAccount(accounts[0])
-            getAllTransactions()
 
         } catch (error) {
             console.log(error)
-            throw new Error("No ethereum object.")
-        }
-    }
-
-    const checkIfTransactionsExist = async () => {
-        try {
-            // Get transaction count
-            const transactionContract = getEthereumContract()
-            const transactionCount = await transactionContract.getTransactionCount()
-            
-            // Update state
-            window.localStorage.setItem("transactionCount", transactionCount)
-        } catch (error) {
-            console.log(error)
-            throw new Error("No ethereum object.")
         }
     }
 
@@ -95,7 +104,6 @@ export const TransactionProvider = ({ children }) => {
             setCurrentAccount(accounts[0])
         } catch (error) {
             console.log(error)
-            throw new Error("No ethereum object.")
         }
     }
 
@@ -119,17 +127,17 @@ export const TransactionProvider = ({ children }) => {
                 }]
             })
 
-            //  Add to blockchain, get hash
+            //  Add to blockchain
             const transactionReceipt = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword)
 
             // Wait for transaction to be confirmed
-            setIsLoading(true) // console.log(`Loading - ${transactionReceipt.hash}`)
-            await transactionReceipt.wait()
-            setIsLoading(false) // console.log(`Success - ${transactionReceipt.hash}`)
+            setIsLoading(true)
+            // console.log(transactionReceipt.hash)
 
-            // Update count
-            const transactionCount = await transactionContract.getTransactionCount()
-            setTransactionCount(transactionCount.toNumber())
+            await transactionReceipt.wait()
+            
+            setIsLoading(false)
+            // console.log(transactionReceipt.hash)
 
             // Clear form and refresh transaction history
             getAllTransactions()
@@ -137,20 +145,8 @@ export const TransactionProvider = ({ children }) => {
 
         } catch (error) {
             console.log(error)
-            throw new Error("No ethereum object.")
         }
     }
-
-    // Check wallet and transactions on load
-    useEffect(() => {
-        checkIfWalletIsConnected()
-        checkIfTransactionsExist()
-    }, [])
-
-    // Get all transactions after connecting account
-    useEffect(() => {
-        if (currentAccount) getAllTransactions()
-    }, [currentAccount])
 
     return (
         <TransactionContext.Provider value={{ currentAccount, connectWallet, formData, sendTransaction, handleChange, transactions, isLoading }}>
