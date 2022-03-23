@@ -1,8 +1,11 @@
-# Web 3.0 Blockchain Application
-![Web 3.0 app screenshot 1](https://i.postimg.cc/XYftP2Sx/web3-blockchain-app-stevenparra-digital-png-screenshot-1.png)
+# Ethereum Transfer Smart Contract (v2)
+[![ETH-Transfer-App-v2-ss1.png](https://i.postimg.cc/j2sXv9ft/ETH-Transfer-App-v2-ss1.png)](https://postimg.cc/tZMW4BDM)
+
+## Live Demo
+You can see the live demo [here](http://eth-transfer-app-v2.stevenparra.digital/)
 
 ## Introduction
-This is a code repository for a personal project working with Crypto, Web3, and blockchain technology.
+This repository is for my first project working with Web3 technology and developing a Smart Contract on the Ethereum Blockchain.
 
 ## Technology used
 
@@ -11,14 +14,12 @@ This is a code repository for a personal project working with Crypto, Web3, and 
 - [Alchemy](https://alchemy.com/) blockchain API and node service
 - [React](https://reactjs.org/) JavaScript library
 - [Tailwind](https://tailwindcss.com/) CSS framework 
+- [Firebase](https://firebase.google.com/) Realtime Database
+- [Giphy](https://developers.giphy.com/) API
 
 ## How it works
 
-Users can connect their [Metamask](https://metamask.io/) wallet to the app and send ETH to other wallets across the Ethereum network (tested on the Ropsten testnet). Users can include a message and keyword to post a gif along with their transaction. A history of the connected wallet's transactions will appear along with a personal message and gif based on the given keyword.
+Users connect their [Metamask](https://metamask.io/) wallet and send ETH to other wallets across the Ropsten Network (an Ethereum blockchain test network). Users can include a message and keyword to post a gif along with their transaction. A history of all transactions made via the smart contract appear at the bottom of the page and are updated as new transactions are made.
 
-Note the navigation tabs do not link to anything since the purpose of this project was to build a functioning blockchain application 
+[![ETH-Transfer-App-v2-full-page.png](https://i.postimg.cc/y6PnW1qd/ETH-Transfer-App-v2-full-page.png)](https://postimg.cc/DmS1MKwk)
 
-![Web 3.0 app screenshot 2](https://i.postimg.cc/pdP3MDPv/web3-blockchain-app-stevenparra-digital-png-screenshot-2.png)
-
-## Live Demo
-You can see the live demo [here](http://web3-blockchain-app.stevenparra.digital/)
