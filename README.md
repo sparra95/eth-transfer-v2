@@ -1,4 +1,4 @@
-# Web 3.0 Blockchain Application
+# Ethereum Transfer Smart Contract (v2)
 ![Web 3.0 app screenshot 1](https://i.postimg.cc/XYftP2Sx/web3-blockchain-app-stevenparra-digital-png-screenshot-1.png)
 
 ## Introduction
