@@ -57,7 +57,7 @@ const Welcome = () => {
 						<li>Fill out the form and send ETH with a message to any other wallet address on the blockchain!</li>
 					</ol>
 					{!currentAccount && 
-						(<button type="button" onClick={connectWallet} className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-dull pursor-pointer hover:bg-[#2546bd]">
+						(<button type="button" onClick={connectWallet} className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer transition-all hover:bg-[#2546bd]">
 							<p className="text-white text-base font-semibold flex items-center">Connect Wallet <BiWalletAlt fontSize={18} color="#fff" className="ml-4" /></p>
 						</button>)
 					}
